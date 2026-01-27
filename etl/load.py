@@ -14,5 +14,14 @@ def init_db():
         )
         """))
 
+def get_last_transaction_id():
+    with engine.connect() as conn:
+        result = conn.execute(text("SELECT MAX(transaction_id) FROM sales"))
+        return result.scalar() or 0
+
 def load_data(df):
-    df.to_sql("sales", engine, if_exists="append", index=False)
+    last_id = get_last_transaction_id()
+    df = df[df["transaction_id"] > last_id]
+
+    if not df.empty:
+        df.to_sql("sales", engine, if_exists="append", index=False)

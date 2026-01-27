@@ -1,5 +1,8 @@
 from cryptography.fernet import Fernet
 
+def generate_key():
+    return Fernet.generate_key()
+
 def get_cipher(key: str):
     return Fernet(key.encode())
 
