@@ -1,0 +1,22 @@
+# Entornos virtuales
+venv/
+.env/
+
+# Archivos Python
+__pycache__/
+*.pyc
+
+# Logs
+logs/
+*.log
+
+# Base de datos local
+*.db
+*.sqlite
+
+# Config sensible
+config/config.yaml
+
+# Sistema
+.DS_Store
+Thumbs.db
