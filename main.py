@@ -2,7 +2,7 @@ import yaml
 import logging
 from etl.extract import extract_csv
 from etl.transform import transform_data
-from etl.load import init_db, load_data
+from etl.load import init_db, load_data_concurrent
 
 logging.basicConfig(
     filename="logs/etl.log",
@@ -23,8 +23,11 @@ for chunk in extract_csv(
 ):
     try:
         clean_df = transform_data(chunk)
-        load_data(clean_df)
-        logging.info(f"Loaded {len(clean_df)} records")
+        rows = load_data_concurrent(
+            clean_df,
+            config["etl"]["max_workers"]
+        )
+        logging.info(f"Loaded {rows} records")
     except Exception as e:
         logging.error(f"Error processing chunk: {e}")
 
