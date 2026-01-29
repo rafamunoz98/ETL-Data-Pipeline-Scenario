@@ -30,6 +30,9 @@ def main():
     The function reads settings from `config/config.yaml` for input paths
     and ETL parameters like `chunk_size` and `max_workers`.
     """
+    
+    # Iterate over CSV chunks: pandas returns an iterator that maintains an internal
+    # file pointer, so each iteration reads the next chunk without repeating or skipping rows
     for chunk in extract_csv(
         config["paths"]["input_csv"],
         config["etl"]["chunk_size"]

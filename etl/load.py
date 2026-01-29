@@ -27,7 +27,7 @@ def init_db():
     Runs only if the table doesn't already exist.
     """
     with engine.connect() as conn:
-        # Use the configured table name instead of a hardcoded "sales"
+
         conn.execute(text(f"""
         CREATE TABLE IF NOT EXISTS {TABLE} (
             transaction_id INTEGER PRIMARY KEY,
