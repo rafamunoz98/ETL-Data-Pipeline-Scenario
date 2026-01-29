@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 
 fake = Faker()
 
-START_ID = 20000
+START_ID = 1
 NUM_RECORDS = 20000
 
 data = []
