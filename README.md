@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project implements a **production‑ready ETL (Extract, Transform, Load) pipeline in Python**. The pipeline ingests sales transaction data from a CSV file, applies data quality checks and transformations, encrypts sensitive information, and loads the data **incrementally and concurrently** into a SQL database. Also is designed to handle large datasets efficiently by processing data in chunks and avoiding full in-memory loads
+This project implements a **production‑ready ETL (Extract, Transform, Load) pipeline in Python**. The pipeline ingests sales transaction data from a CSV file, applies data quality checks and transformations, encrypts sensitive information, and loads the data **incrementally and concurrently** into a SQL database. It is also designed to handle large datasets efficiently by processing data in chunks and avoiding full in-memory loads.
 
 The solution is designed to be **scalable, secure, and maintainable**, following data engineering best practices.
 
@@ -21,7 +21,8 @@ ETL-Data-Pipeline-Scenario/
 │   ├── load.py                    # Incremental & concurrent loading
 │   └── encryption.py              # AES (Fernet) encryption utilities
 ├── config/
-│   └── config.yaml                # External configuration (not versioned)
+│   ├── secrets.yaml               # External configuration (not versioned)
+│   └── config.yaml                # External configuration (versioned, non-sensitive)
 ├── logs/
 │   └── etl.log                    # Execution logs
 ├── main.py                        # ETL orchestration
@@ -43,6 +44,7 @@ ETL-Data-Pipeline-Scenario/
 * **Externalized configuration** via YAML
 * **Robust logging and error handling**
 * **Portable design** (SQLite for demo, PostgreSQL/MySQL ready)
+* **Large dataset handling** via chunked processing and streaming
 
 ---
 
@@ -174,6 +176,7 @@ Remove-Item sales.db
 * `transaction_id` is used as a **watermark**
 * The pipeline queries `MAX(transaction_id)` from the target table
 * Only new records are loaded on subsequent runs
+* The incremental key should be indexed in production for optimal performance
 
 This ensures **idempotency** and avoids duplicate data.
 
@@ -185,7 +188,7 @@ This ensures **idempotency** and avoids duplicate data.
 * Batches are loaded in parallel using `ThreadPoolExecutor`
 * Each thread uses its own database connection
 
-SQLite serializes writes internally, but the design **scales linearly** when used with PostgreSQL or MySQL.
+The concurrency model is limited by SQLite write locking, but scales linearly when used with PostgreSQL or MySQL.
 
 ---
 
@@ -203,6 +206,14 @@ SQLite serializes writes internally, but the design **scales linearly** when use
 * Required fields are validated
 * New or missing columns can be handled without data loss
 * Logic can be extended with schema versioning
+
+---
+
+## Known Limitations
+
+* SQLite limits concurrent writes and is used for demo purposes only
+* Encryption is symmetric and intended for identifier protection, not PII storage
+* Schema versioning can be extended for more complex evolution scenarios
 
 ---
 
