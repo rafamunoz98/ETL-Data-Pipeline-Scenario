@@ -1,0 +1,35 @@
+database:
+  url: sqlite:///sales.db
+  table: sales
+
+paths:
+  input_csv: data/sales.csv
+
+etl:
+  chunk_size: 5000
+  batch_size: 1000
+  max_workers: 4
+  incremental_key: transaction_id
+
+data_quality:
+  required_columns:
+    - transaction_id
+    - customer_id
+    - product_id
+    - quantity
+    - timestamp
+  quantity_min: 1
+
+security:
+  encrypted_columns:
+    - customer_id
+    - product_id
+
+schema:
+  output_columns:
+    transaction_id: int
+    customer_id: str
+    product_id: str
+    quantity: int
+    sale_date: date
+

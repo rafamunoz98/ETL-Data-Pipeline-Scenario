@@ -5,12 +5,13 @@ from datetime import datetime, timedelta
 
 fake = Faker()
 
+START_ID = 20000
 NUM_RECORDS = 20000
 
 data = []
 start_date = datetime.now() - timedelta(days=30)
 
-for i in range(1, NUM_RECORDS + 1):
+for i in range(START_ID, NUM_RECORDS + START_ID):
     data.append({
         "transaction_id": i,
         "customer_id": f"CUST_{random.randint(1, 500)}",

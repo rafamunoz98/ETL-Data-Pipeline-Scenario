@@ -1,8 +1,8 @@
-# Entornos virtuales
+# Virtual environments
 venv/
 .env/
 
-# Archivos Python
+# Python files
 __pycache__/
 *.pyc
 
@@ -10,13 +10,16 @@ __pycache__/
 logs/
 *.log
 
-# Base de datos local
+# Local database
 *.db
 *.sqlite
 
-# Config sensible
-config/config.yaml
+# Sensitive configuration
+config/secrets.yaml
 
-# Sistema
+# Example data files
+data/sales.csv
+
+# System files
 .DS_Store
 Thumbs.db
