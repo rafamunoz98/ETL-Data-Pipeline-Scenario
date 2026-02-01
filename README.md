@@ -223,15 +223,6 @@ The concurrency model is limited by SQLite write locking, but scales linearly wh
 * Clean commit history
 * `.gitignore` excludes environments, secrets, logs, and local databases
 
----
-
-## Interview Talking Points
-
-* Incremental ETL design
-* Data quality as a first‑class concern
-* Secure handling of sensitive data
-* Concurrency and scalability
-* Production‑ready logging and configuration
 
 ---
 

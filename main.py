@@ -31,6 +31,8 @@ def main():
     and ETL parameters like `chunk_size` and `max_workers`.
     """
     
+    error_count = 0
+    
     # Iterate over CSV chunks: pandas returns an iterator that maintains an internal
     # file pointer, so each iteration reads the next chunk without repeating or skipping rows
     for chunk in extract_csv(
@@ -51,9 +53,14 @@ def main():
         except Exception as e:
             # Log errors per chunk but continue processing remaining chunks
             logging.error(f"Error processing chunk: {e}")
+            error_count += 1
 
-    logging.info("ETL process completed successfully")
-    print("ETL completed successfully")
+    if error_count > 0:
+        logging.warning(f"ETL process completed with {error_count} errors")
+        print("ETL completed with errors")
+    else:
+        logging.info("ETL process completed successfully")
+        print("ETL completed successfully")
 
 
 if __name__ == "__main__":
